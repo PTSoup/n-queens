@@ -107,7 +107,11 @@
     },
 
 
-
+    
+    //   [0, 0, 0, 0],
+    //   [1, 1, 0, 0],
+    //   [0, 0, 0, 0],
+    //   [0, 0, 0, 0]
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
@@ -118,16 +122,30 @@
 
       // find each column
       for (var key in board) {
-
+        // pass in column index
+        if (board[key][colIndex] === 1) {
+          counter++;
+        }
+        // compare all column values to check for conflicts
+        if (counter > 1) {
+          return true;
+        }
       }
-      // pass in column index
-      // compare all column values to check for conflicts
       return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var board = this.attributes;
+      var conflicts = [];
+
+      for (var key in board) {
+        conflicts.push(this.hasColConflictAt(key));
+      }
+      return conflicts.reduce(function(acc, value) {
+        acc = acc || value;
+        return acc;
+      }, false);
     },
 
 
@@ -137,11 +155,13 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      
       return false; // fixme
     },
 
