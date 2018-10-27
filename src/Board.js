@@ -113,7 +113,16 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var board = this.attributes;
+      var counter = 0;
+
+      // find each column
+      for (var key in board) {
+
+      }
+      // pass in column index
+      // compare all column values to check for conflicts
+      return false;
     },
 
     // test if any columns on this board contain conflicts
