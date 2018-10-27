@@ -106,12 +106,6 @@
       }, false);
     },
 
-
-    
-    //   [0, 0, 0, 0],
-    //   [1, 1, 0, 0],
-    //   [0, 0, 0, 0],
-    //   [0, 0, 0, 0]
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
@@ -124,6 +118,7 @@
       for (var key in board) {
         // pass in column index
         if (board[key][colIndex] === 1) {
+          //debugger;
           counter++;
         }
         // compare all column values to check for conflicts
@@ -148,21 +143,58 @@
       }, false);
     },
 
+    // 0: [0, 1, 0, 0],
+    // 1: [0, 0, 1, 0],
+    // [0, 0, 0, 0],
+    // [0, 0, 0, 0]
 
-
-    // Major Diagonals - go from top-left to bottom-right
+    // Major Diagonals - go from top-left to  bottom-right
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
 
-      return false; // fixme
+      var j = majorDiagonalColumnIndexAtFirstRow;
+      var board = this.attributes;
+      var counter = 0;
+      var row;
+      // check if majordia less than 0
+      if (j < 0) {
+        // increment row by abs(majordia)
+        row = Math.abs(j).toString();
+        // set majordia to 0
+        j = 0;
+      } else {
+        row = "0";
+      }
+      // go through board
+      while (j < (board.n) && Number(row) < (board.n)) {
+        if (board[row][j] === 1) {
+          counter++;
+        }
+        row++;
+        row = row.toString();
+        j++;
+      }
+      if (counter > 1) {
+        return true;
+      }
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      var board = this.attributes;
+      var conflicts = [];
+      var start = 0 - (board.n - 1);
       
-      return false; // fixme
+      for (var i = start; i < (board.n - 1); i++) {
+        conflicts.push(this.hasMajorDiagonalConflictAt(i));
+      }
+      return conflicts.reduce(function(acc, value) {
+        acc = acc || value;
+        return acc;
+      }, false);
     },
 
 
