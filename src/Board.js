@@ -233,7 +233,6 @@
     hasAnyMinorDiagonalConflicts: function() {
       var conflicts = [];
       var board = this.attributes;
-      debugger;
       for (var i = 0; i < (board.n + board.n - 1); i++) {
         conflicts.push(this.hasMinorDiagonalConflictAt(i));
       }
