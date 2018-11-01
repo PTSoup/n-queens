@@ -38,7 +38,7 @@ window.findSolution = function(row, n, board, conflictCheck) {
 window.findNSolution = function(row, n, board, conflictCheck, count) {
   // count the number of solution boards
   // Every time findsolution returns a valid board, the count should be incremented
-  
+ 
   for (var i = 0; i < n; i++) {
     if (row === n) {
       count++;
@@ -91,12 +91,13 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
+  if (n === 0) {
+    return 1;
+  }
   var board = new Board({n: n});
   var solutionCount = 0;
-  debugger;
+  
   var count = findNSolution(0, n, board, 'hasAnyQueensConflicts', solutionCount);
-
-
   console.log('Number of solutions for ' + n + ' queens:', count);
   return count;
 };
