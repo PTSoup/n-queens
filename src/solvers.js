@@ -35,56 +35,53 @@ window.findSolution = function(row, n, board, conflictCheck) {
   }
 };
 
+window.findNSolution = function(row, n, board, conflictCheck, count) {
+  // count the number of solution boards
+  // Every time findsolution returns a valid board, the count should be incremented
+  
+  for (var i = 0; i < n; i++) {
+    if (row === n) {
+      count++;
+      return count;
+    }
+    board.togglePiece(row, i);
+    if (!board[conflictCheck]()) {
+      // Check this
+      count = findNSolution(row + 1, n, board, conflictCheck, count);
+    }
+    board.togglePiece(row, i);
+  }
+
+  return count;
+
+};
+
 
 window.findNRooksSolution = function(n) {
   var board = new Board({n: n});
 
-  //console.log('fresh board', board.rows());
-
   var solution = findSolution(0, n, board, 'hasAnyRooksConflicts');
   solution = board.rows();
-  //console.log('solution board', solution.rows());
-  //[[1, 0 ,0],[0, 1, 0]]
-  
 
-  // var solution = [];
-  // var length = n;
-  // var matrix = function(n) {
-  //   var counter = n;
-  //   var board = [];
-  //   if (counter === 0) {
-  //     return;
-  //   }
-  //   for (var i = 0; i < length; i++) {
-  //     if (i === n - 1) {
-  //       board.push(1);
-  //     } else {
-  //       board.push(0);
-  //     }
-  //   }
-  //   solution.push(board);
-  //   n--;
-  //   matrix(n);
-  // /};
-
-  //matrix(n);
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var board = new Board({n: n});
+  var solutionCount = 0;
 
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  return solutionCount;
+  var count = findNSolution(0, n, board, 'hasAnyRooksConflicts', solutionCount);
+
+
+  console.log('Number of solutions for ' + n + ' rooks:', count);
+  return count;
 };
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
   var board = new Board({n: n});
-
-  //console.log('fresh board', board.rows());
 
   var solution = findSolution(0, n, board, 'hasAnyQueensConflicts');
   solution = board.rows();
@@ -94,8 +91,12 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var board = new Board({n: n});
+  var solutionCount = 0;
+  debugger;
+  var count = findNSolution(0, n, board, 'hasAnyQueensConflicts', solutionCount);
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
+
+  console.log('Number of solutions for ' + n + ' queens:', count);
+  return count;
 };
