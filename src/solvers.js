@@ -14,9 +14,6 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 window.findSolution = function(row, n, board, conflictCheck) {
 
-  // if (row === n) {
-  //   return board;
-  // }
   for (var i = 0; i < n; i++) {
     // place the piece 
     if (row === n) {
@@ -24,21 +21,23 @@ window.findSolution = function(row, n, board, conflictCheck) {
     }
     board.togglePiece(row, i);
     // check if it's a valid spot
-      // to the next row -
+    // to the next row -
     if (!board[conflictCheck]()) {
       // Check this
-      return findSolution(row + 1, n, board, conflictCheck); 
-    } else {
-      board.togglePiece(row, i);
+      var results = findSolution(row + 1, n, board, conflictCheck);
+      if (results) {
+        return results;
+      }
     }
+    board.togglePiece(row, i);
     // else if it's not valid - take out that piece
     // go to the next row
   }
-}
+};
 
 
 window.findNRooksSolution = function(n) {
-  var board = new Board({n:n});
+  var board = new Board({n: n});
 
   //console.log('fresh board', board.rows());
 
@@ -83,7 +82,7 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var board = new Board({n:n});
+  var board = new Board({n: n});
 
   //console.log('fresh board', board.rows());
 
